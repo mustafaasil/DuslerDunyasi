@@ -1,8 +1,12 @@
+global using DuslerDunyasi.Data;
+global using Microsoft.EntityFrameworkCore;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
-
+var Baglanti = builder.Configuration.GetConnectionString("BaglantiCumlem");
+builder.Services.AddDbContext<UygulamaDbContext>(o => o.UseSqlServer(Baglanti));
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
