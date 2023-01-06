@@ -1,0 +1,39 @@
+﻿@model List<Gonderi>
+@{
+    ViewData["Title"] = "Gönderiler";
+}
+
+<table class="table table-striped" id="table">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Başlık</th>
+            <th>İçerik</th>
+            <th>Oluşturulma Zamanı</th>
+            <th>Kategori</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <th>@item.Id</th>
+                <th>@item.Baslik</th>
+                <th>@(item.Icerik.Length > 40 ? item.Icerik.Remove(40) + "..." : item.Icerik)</th>
+                <th>@item.OlusturulmaZamani</th>
+                <th>@item.Kategori.Ad</th>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@section Scripts{
+
+    <script>
+        $("#table").DataTable({
+            language: {
+                url: "https://cdn.datatables.net/plug-ins/1.13.1/i18n/tr.json"
+            }
+        });
+    </script>
+}
