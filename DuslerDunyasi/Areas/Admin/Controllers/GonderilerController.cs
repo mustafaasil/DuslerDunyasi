@@ -1,5 +1,6 @@
 ﻿using DuslerDunyasi.Areas.Admin.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 
 namespace DuslerDunyasi.Areas.Admin.Controllers
@@ -24,7 +25,13 @@ namespace DuslerDunyasi.Areas.Admin.Controllers
 
         public IActionResult Yeni()
         {
+            KategorileriYukle();
             return View("Yonet");
+        }
+
+        private void KategorileriYukle()
+        {
+            ViewBag.Kategoriler = _db.Kategoriler.Select(x => new SelectListItem() { Value = x.Id.ToString(), Text = x.Ad }).ToList();
         }
 
         [HttpPost, ValidateAntiForgeryToken]
@@ -36,13 +43,14 @@ namespace DuslerDunyasi.Areas.Admin.Controllers
                 {
                     Baslik =vm.Baslik,
                     Icerik = vm.Icerik,
-                    KategoriId = vm.KategoriId
+                    KategoriId = vm.KategoriId!.Value
                 };
                 _db.Gonderiler.Add(gonderi);
                 _db.SaveChanges();
                 return RedirectToAction(nameof(Index), new { durum = "eklendi" });
             }
 
+            KategorileriYukle();
             return View("Yonet");
         }
 

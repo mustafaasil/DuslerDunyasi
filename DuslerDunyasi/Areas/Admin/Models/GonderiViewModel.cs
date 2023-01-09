@@ -17,6 +17,7 @@ namespace DuslerDunyasi.Areas.Admin.Models
 
 
         [Display(Name = "Kategori")]
-        public int KategoriId { get; set; }
+        [Required(ErrorMessage = "{0} alanı zorunludur")]
+        public int? KategoriId { get; set; }
     }
 }

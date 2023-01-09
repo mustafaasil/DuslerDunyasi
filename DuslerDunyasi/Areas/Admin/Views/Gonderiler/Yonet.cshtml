@@ -3,6 +3,8 @@
 @{
     var action = ViewContext.RouteData.Values["action"]!.ToString();
     ViewData["Title"] = action == "Yeni" ? "Yeni Gönderi" : "Gönderiyi Düzenler";
+
+    
 }
 
 <form method="post">
@@ -18,12 +20,9 @@
     </div>
     <div class="mb-3">
         <label asp-for="KategoriId" class="form-label"></label>
-        <select asp-for="KategoriId" class="form-control">
+        <select asp-for="KategoriId" asp-items="@ViewBag.Kategoriler" class="form-control">
             <option value="">Seçiniz</option>
-            <option value="1">Birinci Kategori</option>
-            <option value="2">İkinci Kategori</option>
-            <option value="3">Üçüncü Kategori</option>
-            <option value="4">Dördüncü Kategori</option>
+            
         </select>
         <span asp-validation-for="KategoriId"></span>
     </div>
@@ -32,3 +31,13 @@
         <a asp-controller="Gonderiler" asp-action="Index" class="btn btn-danger">İptal</a>
     </div>
 </form>
+
+
+
+@section Scripts{ 
+    <script>
+        $("#Icerik").summernote({
+            height:200
+            });
+    </script>
+}

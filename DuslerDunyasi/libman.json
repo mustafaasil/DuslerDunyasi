@@ -51,6 +51,25 @@
         "dist/js/bootstrap.min.js",
         "dist/js/bootstrap.min.js.map"
       ]
+    },
+    {
+      "provider": "cdnjs",
+      "library": "summernote@0.8.18",
+      "destination": "wwwroot/admin/lib/summernote/",
+      "files": [
+        "summernote-lite.css",
+        "summernote-lite.js",
+        "summernote-lite.js.map",
+        "summernote-lite.min.css",
+        "summernote-lite.min.js",
+        "summernote-lite.min.js.map"
+      ]
     }
-  ]
+  ,
+{
+  "provider": "cdnjs",
+  "library": "summernote@0.8.18",
+  "destination": "wwwroot/admin/lib/summernote/"
+}
+]
 }
