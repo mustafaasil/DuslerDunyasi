@@ -1,6 +1,17 @@
 ﻿@model List<Gonderi>
 @{
     ViewData["Title"] = "Gönderiler";
+    //var durum = Context.Request.Query["durum"];
+    //var mesaj = durum == "eklendi" ? "Gönderi başarıyla oluşturuldu" :
+    //            durum == "duzenlendi" ? "Gönderi başarıyla güncellenddi" :
+    //            durum == "silindi" ? "Gönderi başarıyla silindi" : null;
+}
+
+@if (ViewBag.Mesaj != null)
+{
+    <div class="alert-light alert-success">
+        @ViewBag.Mesaj
+    </div>
 }
 
 <table class="table table-striped" id="table">

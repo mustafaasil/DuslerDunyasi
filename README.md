@@ -1,4 +1,4 @@
-# Gunluk
+# Düþler Dünyasý
 .Net 6 ile geliþtirilen bir MVC Blog projesi. Arayüzünde Bootstrap 5 kullanýldý
 
 ## Kaynaklar

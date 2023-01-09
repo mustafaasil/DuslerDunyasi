@@ -27,7 +27,7 @@ namespace DuslerDunyasi.Controllers
 
             int sayfaAdet = (int)Math.Ceiling((double)gonderiler.Count() / Sabitler.SAYFA_BASINA_GONDERI); //hangi sayfada oldugunu gösterir
 
-            gonderiler = gonderiler.Skip((sayfa - 1) * Sabitler.SAYFA_BASINA_GONDERI).Take(Sabitler.SAYFA_BASINA_GONDERI); //sayfayı 5 yazıya böldü
+            gonderiler = gonderiler.OrderByDescending(x => x.OlusturulmaZamani).Skip((sayfa - 1) * Sabitler.SAYFA_BASINA_GONDERI).Take(Sabitler.SAYFA_BASINA_GONDERI); //sayfayı 5 yazıya böldü
 
             var vm = new HomeViewModel()
             {
