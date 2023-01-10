@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
+using System.Security.Permissions;
 
 namespace DuslerDunyasi.Areas.Admin.Controllers
 {
@@ -17,7 +18,7 @@ namespace DuslerDunyasi.Areas.Admin.Controllers
         public IActionResult Index(string? durum)
         {
             ViewBag.Mesaj = durum == "eklendi" ? "Gönderi başarıyla oluşturuldu" :
-                            durum == "duzenlendi" ? "Gönderi başarıyla güncellenddi" :
+                            durum == "duzenlendi" ? "Gönderi başarıyla güncellendi" :
                             durum == "silindi" ? "Gönderi başarıyla silindi" : null;
 
             return View(_db.Gonderiler.Include(x => x.Kategori).ToList()); //Inculude ile ilişkili oldugu kategorileri getir
@@ -41,6 +42,7 @@ namespace DuslerDunyasi.Areas.Admin.Controllers
             {
                 var gonderi = new Gonderi()
                 {
+                    
                     Baslik =vm.Baslik,
                     Icerik = vm.Icerik,
                     KategoriId = vm.KategoriId!.Value
@@ -56,7 +58,58 @@ namespace DuslerDunyasi.Areas.Admin.Controllers
 
         public IActionResult Duzenle(int id)
         {
+            var gonderi = _db.Gonderiler.Find(id);
+
+            if (gonderi == null)
+                return NotFound();
+
+            var vm = new GonderiViewModel()
+            {
+                Baslik = gonderi.Baslik,
+                Icerik = gonderi.Icerik,
+                KategoriId = gonderi.KategoriId,
+                Id = gonderi.Id
+
+            };
+
+            KategorileriYukle();
+            return View("Yonet", vm);
+        }
+
+        [HttpPost, ValidateAntiForgeryToken]
+        public IActionResult Duzenle(GonderiViewModel vm) 
+        {
+            if (ModelState.IsValid)
+            {
+                var gonderi = _db.Gonderiler.Find(vm.Id);
+                if (gonderi == null)
+                    return NotFound();
+
+                gonderi.Baslik = vm.Baslik;
+                gonderi.Icerik = vm.Icerik;
+                gonderi.KategoriId = vm.KategoriId!.Value;
+                gonderi.DegistirilmeZamani = DateTime.Now;
+                
+                _db.SaveChanges();
+                return RedirectToAction(nameof(Index), new { durum = "duzenlendi" });
+            }
+
+            KategorileriYukle();
             return View("Yonet");
+        }
+
+        [HttpPost, ValidateAntiForgeryToken]
+        public IActionResult Sil(int id)
+        {
+            var gonderi = _db.Gonderiler.Find(id);
+
+             if (gonderi == null)
+                return NotFound();
+
+            _db.Gonderiler.Remove(gonderi);
+            _db.SaveChanges();
+
+            return RedirectToAction(nameof(Index), new { durum = "silindi" });
         }
     }
 }
